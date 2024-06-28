@@ -2,7 +2,7 @@ name: CI
 
 on:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 14 * * *'
 
 jobs:
   build:
@@ -25,10 +25,12 @@ jobs:
     - name: Run Scrapy spider
       run: scrapy crawl items
       env:
-        API_TOKEN: ${{ secrets.API_TOKEN }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
 
     - name: Insert data into database
-      run: python insert_to_db.py
+      run: python insert_to_db.py twitch_top_games.json
       env:
         PGHOST: ${{ secrets.PGHOST }}
         PGPORT: ${{ secrets.PGPORT }}
