@@ -34,4 +34,4 @@ jobs:
           PGPORT: ${{ secrets.PGPORT }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSER: ${{ secrets.PGUSER }}
-          PGPASSWORD: ${{ secrets.PGPASWORD }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
