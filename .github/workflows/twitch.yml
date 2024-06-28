@@ -23,10 +23,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install python-dotenv
           pip install requests
-          pip install spsycopg2-binary
+          pip install psycopg2-binary
 
       - name: Run main.py
         run: python ./twitch/main.py
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID}}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASWORD }}
