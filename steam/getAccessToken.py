@@ -17,9 +17,11 @@ def get_access_token():
         cur.execute("""
             SELECT token, expires_time
             FROM access_token
+            WHERE client_id = %s
             ORDER BY get_date DESC
             LIMIT 1
-        """)
+        """,
+        (os.getenv('CLIENT_ID'),))
         
         token_record = cur.fetchone()
         
