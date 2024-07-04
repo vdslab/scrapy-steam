@@ -43,7 +43,7 @@ class ItemsSpider(scrapy.Spider):
             game_id = game['id']
 
             yield scrapy.Request(
-                f'https://api.twitch.tv/helix/videos?sort=views&game_id={game_id}&first=50',
+                f'https://api.twitch.tv/helix/videos?sort=views&game_id={game_id}&first=10',
                 headers=self.headers,
                 callback=self.parse_videos,
                 meta={'game_title': game_title, 'game_id': game_id, 'total_views': 0}
