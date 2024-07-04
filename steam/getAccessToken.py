@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import datetime
 
 def get_access_token():
+    cur = None
+    connect = None
     try:
         connect = psycopg2.connect(
             host=os.getenv('PGHOST'),
@@ -20,9 +22,8 @@ def get_access_token():
             WHERE client_id = %s
             ORDER BY get_date DESC
             LIMIT 1
-        """,
-        (os.getenv('CLIENT_ID'),))
-        
+        """, (os.getenv('CLIENT_ID'),))
+
         token_record = cur.fetchone()
         
         if token_record:
@@ -41,8 +42,7 @@ def get_access_token():
             return None
 
     except Exception as e:
-        print(e)
-        print("データベースからトークンを取得できませんでした。")
+        print(f"データベースからトークンを取得できませんでした: {e}")
         return None
 
     finally:
