@@ -32,6 +32,11 @@ jobs:
       run: scrapy crawl items
       env:
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        PGHOST: ${{ secrets.PGHOST }}
+        PGPORT: ${{ secrets.PGPORT }}
+        PGDATABASE: ${{ secrets.PGDATABASE }}
+        PGUSER: ${{ secrets.PGUSER }}
+        PGPASSWORD: ${{ secrets.PGPASSWORD }}
 
     - name: Insert data into database
       run: python ./steam/insert_views_to_db.py 
