@@ -2,7 +2,8 @@ name: CI
 
 on:
   schedule:
-    - cron: '0 14 * * *'
+    - cron: '22 16 * * *'
+    workflow_dispatch:
 
 jobs:
   build:
@@ -15,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.12'
 
     - name: Install dependencies
       run: |
@@ -26,11 +27,9 @@ jobs:
       run: scrapy crawl items
       env:
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-
 
     - name: Insert data into database
-      run: python insert_to_db.py twitch_top_games.json
+      run: python insert_views_to_db.py
       env:
         PGHOST: ${{ secrets.PGHOST }}
         PGPORT: ${{ secrets.PGPORT }}

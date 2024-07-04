@@ -1,20 +1,29 @@
 import scrapy
 import json
 import os
+import sys
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
+token_path = os.path.join(parent_dir, 'getAccessToken.py')
+sys.path.append(parent_dir)
+
+from getAccessToken import get_access_token
 
 from dotenv import load_dotenv
 load_dotenv()
 
 CLIENT_ID = os.getenv('CLIENT_ID')
-CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 class ItemsSpider(scrapy.Spider):
     name = 'items'
     allowed_domains = ['api.twitch.tv']
     base_url = 'https://api.twitch.tv/helix/games/top'
+    token = get_access_token()
+    print(token)
     headers = {
         'Client-ID': CLIENT_ID,
-        'Authorization': f'Bearer {CLIENT_SECRET}'
+        'Authorization': f'Bearer {token}'
     }
 
     custom_settings = {
@@ -23,8 +32,8 @@ class ItemsSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        # url = self.base_url + '?first=100'
-        url = self.base_url + '?first=5'
+        url = self.base_url + '?first=100'
+        # url = self.base_url + '?first=5'
         yield scrapy.Request(url, headers=self.headers, callback=self.parse_games)
 
     def parse_games(self, response):
