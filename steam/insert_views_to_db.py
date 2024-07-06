@@ -23,8 +23,8 @@ def insert_views_to_db(json_file, db_host, db_port, db_name, db_user, db_passwor
 
         for item in data:
             cur.execute("""
-                INSERT INTO game_views (get_date, game_title, game_id, total_views) VALUES (%s, %s, %s, %s)
-            """, (datetime.datetime.now(), item['game_title'], item['game_id'], item['total_views']))
+                INSERT INTO game_views (get_date, game_title, twitch_id, steam_id, total_views) VALUES (%s, %s, %s, %s, %s)
+            """, (datetime.datetime.now(), item['game_title'], item['twitch_id'], item['steam_id'], item['total_views']))
 
         connect.commit()
         cur.close()
