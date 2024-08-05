@@ -61,7 +61,7 @@ def insert_views_to_db(json_file, db_host, db_port, db_name, db_user, db_passwor
         """, steam_data_values)
 
         # Delete and insert data into steam_data_genres table
-        cur.executemany("DELETE FROM steam_data_genres WHERE steam_game_id = %s", [(item[0],) for item in steam_data_values])
+        cur.executemany("DELETE FROM steam_data_genres WHERE steam_game_id = %s", [(str(item[0]),) for item in steam_data_values])
         cur.executemany("""
             INSERT INTO steam_data_genres (steam_game_id, genre_id)
             SELECT %s, genre_id FROM genres WHERE genre_id = %s
