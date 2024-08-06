@@ -60,11 +60,11 @@ def insert_views_to_db(json_file, db_host, db_port, db_name, db_user, db_passwor
                 is_device_mac = EXCLUDED.is_device_mac
         """, steam_data_values)
 
-        # Delete and insert data into steam_data_genres table
-        cur.executemany("DELETE FROM steam_data_genres WHERE steam_game_id = %s", [(str(item[0]),) for item in steam_data_values])
+        # Insert or update steam_data_genres table
         cur.executemany("""
             INSERT INTO steam_data_genres (steam_game_id, genre_id)
-            SELECT %s, genre_id FROM genres WHERE genre_id = %s
+            VALUES (%s, %s)
+            ON CONFLICT (steam_game_id, genre_id) DO NOTHING
         """, steam_data_genres_values)
 
         # Insert data into game_views table
