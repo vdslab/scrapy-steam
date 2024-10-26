@@ -46,3 +46,12 @@ jobs:
         PGDATABASE: ${{ secrets.PGDATABASE }}
         PGUSER: ${{ secrets.PGUSER }}
         PGPASSWORD: ${{ secrets.PGPASSWORD }}
+    
+    - name: Scrape site and Insert tags into database
+      run: python ./steam/scrape_site.py 
+      env:
+        PGHOST: ${{ secrets.PGHOST }}
+        PGPORT: ${{ secrets.PGPORT }}
+        PGDATABASE: ${{ secrets.PGDATABASE }}
+        PGUSER: ${{ secrets.PGUSER }}
+        PGPASSWORD: ${{ secrets.PGPASSWORD }}
