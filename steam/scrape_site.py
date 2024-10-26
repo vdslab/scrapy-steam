@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import requests
 import time
 
-load_dotenv()
+# load_dotenv()
 
 base_url = "https://steam-active-scrape.netlify.app/.netlify/functions/usertags?gameId="
 
