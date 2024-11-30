@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 # 環境変数の読み込み
-load_dotenv()
+# load_dotenv()
 
 # データベース接続情報を環境変数から取得
 PGHOST = os.getenv('PGHOST')
