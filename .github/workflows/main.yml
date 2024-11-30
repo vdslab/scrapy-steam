@@ -24,7 +24,7 @@ jobs:
           pip install requests tqdm janome scikit-learn numpy psycopg2-binary python-dotenv
 
       - name: Fetch top games from Twitch and Steam
-        run: python ./steam/fetch_top_games.py
+        run: python fetch_top_games.py
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
@@ -33,18 +33,21 @@ jobs:
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
+        working-directory: ./steam
 
       - name: Fetch and parse Steam details
-        run: python ./steam/fetch_and_parse_steam.py
+        run: python fetch_and_parse_steam.py
+        working-directory: ./steam
 
       - name: Insert data into PostgreSQL database
-        run: python ./steam/insert_data_to_db.py
+        run: python insert_data_to_db.py
         env:
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSER: ${{ secrets.PGUSER }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
+        working-directory: ./steam
 
       - name: Finish
         run: echo "All scripts executed successfully."
