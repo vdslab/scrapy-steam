@@ -1,48 +1,45 @@
-name: CI
+name: Update Steam Database
 
 on:
   schedule:
-    - cron: '30 16 * * *'
+    - cron: '0 13 * * *'
   workflow_dispatch:
-    inputs:
-      example_input:
-        description: 'An example input for the workflow'
-        required: false
-        default: 'default_value'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v3
+      - name: Check out the repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install scrapy psycopg2-binary python-dotenv
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests tqdm janome scikit-learn numpy psycopg2-binary python-dotenv
 
-    - name: Run Scrapy spider
-      run: scrapy crawl items
-      env:
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        PGHOST: ${{ secrets.PGHOST }}
-        PGPORT: ${{ secrets.PGPORT }}
-        PGDATABASE: ${{ secrets.PGDATABASE }}
-        PGUSER: ${{ secrets.PGUSER }}
-        PGPASSWORD: ${{ secrets.PGPASSWORD }}
+      - name: Fetch top games from Twitch and Steam
+        run: python ./steam/fetch_top_games.py
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
 
-    - name: Insert data into database
-      run: python ./steam/insert_views_to_db.py 
-      env:
-        PGHOST: ${{ secrets.PGHOST }}
-        PGPORT: ${{ secrets.PGPORT }}
-        PGDATABASE: ${{ secrets.PGDATABASE }}
-        PGUSER: ${{ secrets.PGUSER }}
-        PGPASSWORD: ${{ secrets.PGPASSWORD }}
+      - name: Fetch and parse Steam details
+        run: python ./steam/fetch_and_parse_steam.py
+
+      - name: Insert data into PostgreSQL database
+        run: python ./steam/insert_data_to_db.py
+        env:
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+
+      - name: Finish
+        run: echo "All scripts executed successfully."
