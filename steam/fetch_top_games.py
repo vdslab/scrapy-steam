@@ -137,8 +137,6 @@ def main():
     # 視聴回数とアクティビティデータを取得
     all_data = {}
     print("各ゲームの視聴回数とアクティビティデータを取得中...")
-
-    matched_games = matched_games[0:15]
     
     for game in tqdm(matched_games, desc="Fetching data"):
         twitch_id = game['twitch_id']
