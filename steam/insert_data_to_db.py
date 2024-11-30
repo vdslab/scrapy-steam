@@ -10,6 +10,8 @@ from datetime import datetime
 # 環境変数の読み込み
 # load_dotenv()
 
+from psycopg2.extras import Json
+
 # データベース接続情報を環境変数から取得
 PGHOST = os.getenv('PGHOST')
 PGPORT = os.getenv('PGPORT')
@@ -194,7 +196,7 @@ def main():
                 'steam_id': steam_id,
                 'twitch_id': twitch_id,
                 'game_title': game_title,
-                'genres': genres,
+                'genres': Json(genres),
                 'webpage_url': webpage_url,
                 'img_url': img_url,
                 'price': price,
@@ -204,7 +206,7 @@ def main():
                 'is_device_windows': is_device_windows,
                 'is_device_mac': is_device_mac,
                 'play_time': play_time,
-                'review_text': review_text,
+                'review_text': Json(review_text),
                 'difficulty': difficulty,
                 'graphics': graphics,
                 'story': story,
@@ -212,7 +214,7 @@ def main():
                 'developer_name': developer_name,
                 'short_details': short_details,
                 'release_date': release_date,
-                'tags': tags
+                'tags': Json(tags)
             }
 
             try:

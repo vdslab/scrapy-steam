@@ -9,7 +9,7 @@ from getAccessToken import get_access_token
 
 from dotenv import load_dotenv
 
-# load_dotenv
+# load_dotenv()
 
 CLIENT_ID = os.getenv('CLIENT_ID')
 
