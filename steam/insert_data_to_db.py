@@ -196,7 +196,7 @@ def main():
                 'steam_id': steam_id,
                 'twitch_id': twitch_id,
                 'game_title': game_title,
-                'genres': Json(genres),
+                'genres': genres,
                 'webpage_url': webpage_url,
                 'img_url': img_url,
                 'price': price,
@@ -214,7 +214,7 @@ def main():
                 'developer_name': developer_name,
                 'short_details': short_details,
                 'release_date': release_date,
-                'tags': Json(tags)
+                'tags': tags
             }
 
             try:
